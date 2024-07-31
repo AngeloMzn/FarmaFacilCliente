@@ -1,4 +1,5 @@
-import 'package:farmafacil_cliente/components/rounded_input.dart';
+import 'package:farmafacil_cliente/components/button.dart';
+import 'package:farmafacil_cliente/components/input.dart';
 import 'package:farmafacil_cliente/screens/signup_screen.dart';
 import 'package:farmafacil_cliente/theme/application_colors.dart';
 import 'package:farmafacil_cliente/utils/navigate.dart';
@@ -23,8 +24,11 @@ class LoginScreen extends StatelessWidget {
               scale: 0.8,
             ),
           ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.8,
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 20,
+              right: 20,
+            ),
             child: Column(
               children: [
                 const Align(
@@ -55,10 +59,13 @@ class LoginScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      const RoundedInput(placeholder: "E-mail"),
+                      const Input(
+                        placeholder: "E-mail",
+                        keyboardType: TextInputType.emailAddress,
+                      ),
                       Padding(
                         padding: const EdgeInsets.only(top: 8),
-                        child: RoundedInput(
+                        child: Input(
                           placeholder: "Senha",
                           hideText: true,
                           icon: IconButton(
@@ -71,30 +78,12 @@ class LoginScreen extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 15, bottom: 15),
-                        child: SizedBox(
+                        child: Button(
                           height: 44,
-                          child: FilledButton(
-                            style: ButtonStyle(
-                              backgroundColor:
-                                  const WidgetStatePropertyAll<Color>(
-                                ApplicationColors.primary,
-                              ),
-                              shape: WidgetStatePropertyAll(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                            ),
-                            onPressed: () {
-                              debugPrint("hi");
-                            },
-                            child: const Text(
-                              "Entre",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
+                          onPress: () {
+                            debugPrint("hi");
+                          },
+                          text: "Entre",
                         ),
                       ),
                     ],
