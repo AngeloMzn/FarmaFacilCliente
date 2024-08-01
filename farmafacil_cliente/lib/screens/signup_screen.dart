@@ -1,11 +1,29 @@
+import 'package:easy_mask/easy_mask.dart';
 import 'package:farmafacil_cliente/components/button.dart';
 import 'package:farmafacil_cliente/components/input.dart';
+import 'package:farmafacil_cliente/controllers/signup_controller.dart';
 import 'package:farmafacil_cliente/theme/application_colors.dart';
 import 'package:farmafacil_cliente/utils/navigate.dart';
 import 'package:flutter/material.dart';
 
-class SignupScreen extends StatelessWidget {
+class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
+
+  @override
+  State<SignupScreen> createState() => _SignupScreenState();
+}
+
+class _SignupScreenState extends State<SignupScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController nomeController = TextEditingController(),
+      telefoneController = TextEditingController(),
+      emailController = TextEditingController(),
+      cpfController = TextEditingController(),
+      rgController = TextEditingController(),
+      senhaController = TextEditingController(),
+      senhaRepetidaController = TextEditingController();
+  final signupControllerUm = SignupController(),
+      signupControllerDois = SignupController();
 
   @override
   Widget build(BuildContext context) {
@@ -48,54 +66,92 @@ class SignupScreen extends StatelessWidget {
                   top: 20,
                 ),
                 child: Form(
+                  key: _formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.only(bottom: 8.0),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
                         child: Input(
+                          controller: nomeController,
+                          validator: (nome) {
+                            return signupControllerUm.defaultValidator(
+                              nome,
+                              "Insira seu nome.",
+                            );
+                          },
                           placeholder: "Nome completo",
                           keyboardType: TextInputType.name,
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(bottom: 8.0),
-                        child: Input(
-                          placeholder: "Telefone",
-                          keyboardType: TextInputType.number,
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(bottom: 8.0),
-                        child: Input(
-                          placeholder: "E-mail",
-                          keyboardType: TextInputType.emailAddress,
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8.0),
                         child: Input(
-                          placeholder: "Endereço",
-                          keyboardType: TextInputType.streetAddress,
-                          icon: IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.add_home,
-                            ),
-                            color: ApplicationColors.primary,
-                          ),
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(bottom: 8.0),
-                        child: Input(
-                          placeholder: "CPF",
+                          controller: telefoneController,
+                          placeholder: "Telefone",
                           keyboardType: TextInputType.number,
+                          masks: [
+                            TextInputMask(
+                              mask: [
+                                "(99) 9999-9999",
+                                "(99) 99999-9999",
+                              ],
+                            ),
+                          ],
+                          validator: (phoneNumber) {
+                            return signupControllerUm.validatePhoneNumber(
+                              phoneNumber,
+                            );
+                          },
                         ),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(bottom: 8.0),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
                         child: Input(
+                          controller: emailController,
+                          validator: (email) {
+                            return signupControllerUm.validateEmail(email);
+                          },
+                          placeholder: "E-mail",
+                          keyboardType: TextInputType.emailAddress,
+                        ),
+                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(bottom: 8.0),
+                      //   child: Input(
+                      //     placeholder: "Endereço",
+                      //     keyboardType: TextInputType.streetAddress,
+                      //     icon: IconButton(
+                      //       onPressed: () {},
+                      //       icon: const Icon(
+                      //         Icons.add_home,
+                      //       ),
+                      //       color: ApplicationColors.primary,
+                      //     ),
+                      //   ),
+                      // ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: Input(
+                          controller: cpfController,
+                          placeholder: "CPF",
+                          validator: (cpf) {
+                            return signupControllerUm.validateCpf(
+                              cpf,
+                            );
+                          },
+                          keyboardType: TextInputType.number,
+                          masks: [
+                            TextInputMask(
+                              mask: "999.999.999-99",
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: Input(
+                          controller: rgController,
                           placeholder: "RG",
                           keyboardType: TextInputType.number,
                         ),
@@ -103,15 +159,23 @@ class SignupScreen extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8.0),
                         child: Input(
+                          controller: senhaController,
                           placeholder: "Senha",
-                          hideText: true,
+                          hideText: signupControllerUm.hidePassword,
                           icon: IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.visibility_off,
+                            onPressed: () {
+                              setState(() {
+                                signupControllerUm.togglePasswordVisibility();
+                              });
+                            },
+                            icon: Icon(
+                              signupControllerUm.passwordIcon,
                             ),
                           ),
                           iconColor: ApplicationColors.primary,
+                          validator: (senha) {
+                            return signupControllerUm.validatePassword(senha);
+                          },
                         ),
                       ),
                       const Padding(
@@ -127,15 +191,26 @@ class SignupScreen extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8.0),
                         child: Input(
+                          controller: senhaRepetidaController,
                           placeholder: "Confirme a senha",
-                          hideText: true,
+                          hideText: signupControllerDois.hidePassword,
                           icon: IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.visibility_off,
+                            onPressed: () {
+                              setState(() {
+                                signupControllerDois.togglePasswordVisibility();
+                              });
+                            },
+                            icon: Icon(
+                              signupControllerDois.passwordIcon,
                             ),
                           ),
                           iconColor: ApplicationColors.primary,
+                          validator: (senhaRepetida) {
+                            return signupControllerUm.validateEqualPassword(
+                              senhaRepetida,
+                              senhaController.text,
+                            );
+                          },
                         ),
                       ),
                       Padding(
@@ -146,7 +221,7 @@ class SignupScreen extends StatelessWidget {
                         child: Button(
                           height: 60,
                           onPress: () {
-                            debugPrint("hello");
+                            signupControllerUm.submitForm(_formKey);
                           },
                           text: "Criar conta",
                           textSize: 18,

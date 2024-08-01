@@ -1,13 +1,31 @@
 import 'package:farmafacil_cliente/components/button.dart';
 import 'package:farmafacil_cliente/components/input.dart';
+import 'package:farmafacil_cliente/controllers/login_controller.dart';
+import 'package:farmafacil_cliente/controllers/signup_controller.dart';
 import 'package:farmafacil_cliente/screens/signup_screen.dart';
 import 'package:farmafacil_cliente/theme/application_colors.dart';
 import 'package:farmafacil_cliente/utils/navigate.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final SignupController signupController = SignupController();
+  final TextEditingController emailController = TextEditingController(),
+      senhaController = TextEditingController();
+  final loginController = LoginController();
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,23 +74,34 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
                 Form(
+                  key: _formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      const Input(
+                      Input(
+                        controller: emailController,
                         placeholder: "E-mail",
                         keyboardType: TextInputType.emailAddress,
+                        validator: (email) {
+                          return loginController.validateEmail(email);
+                        },
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 8),
                         child: Input(
+                          controller: senhaController,
+                          validator: (senha) {
+                            return loginController.validatePassword(senha);
+                          },
                           placeholder: "Senha",
-                          hideText: true,
+                          hideText: loginController.hidePassword,
                           icon: IconButton(
                             onPressed: () {
-                              debugPrint("Hi");
+                              setState(() {
+                                loginController.togglePasswordVisibility();
+                              });
                             },
-                            icon: const Icon(Icons.visibility_off),
+                            icon: Icon(loginController.passwordIcon),
                           ),
                         ),
                       ),
@@ -81,7 +110,7 @@ class LoginScreen extends StatelessWidget {
                         child: Button(
                           height: 44,
                           onPress: () {
-                            debugPrint("hi");
+                            loginController.submitForm(_formKey);
                           },
                           text: "Entre",
                         ),
