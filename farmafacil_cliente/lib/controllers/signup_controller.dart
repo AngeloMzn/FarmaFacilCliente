@@ -1,8 +1,13 @@
+import 'package:farmafacil_cliente/models/user.dart';
+import 'package:farmafacil_cliente/screens/address_screen.dart';
+import 'package:farmafacil_cliente/utils/navigate.dart';
 import 'package:flutter/material.dart';
 
 class SignupController {
   bool hidePassword = true;
   IconData passwordIcon = Icons.visibility_off;
+  String datePickerLabel = "Data de nascimento";
+  bool showError = false;
 
   void togglePasswordVisibility() {
     hidePassword = !hidePassword;
@@ -54,7 +59,9 @@ class SignupController {
     String pattern = r"^\(\d{2}\) \d{4,5}-\d{4}$";
     RegExp regExp = RegExp(pattern);
 
-    if (phoneNumber != null && phoneNumber.isNotEmpty && !regExp.hasMatch(phoneNumber)) {
+    if (phoneNumber != null &&
+        phoneNumber.isNotEmpty &&
+        !regExp.hasMatch(phoneNumber)) {
       return "Insira um número de telefone válido.";
     }
 
@@ -80,11 +87,38 @@ class SignupController {
     return null;
   }
 
-  void submitForm(GlobalKey<FormState> key) {
-    if (key.currentState!.validate()) {
-      debugPrint("válido");
+  Future<String> pickDate(BuildContext context) async {
+    DateTime? date = await showDatePicker(
+      context: context,
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2024, 12, 31),
+    );
+
+    return date == null
+        ? "Data de nascimento"
+        : "${date.day}/${date.month}/${date.year}";
+  }
+
+  bool submitForm(
+    GlobalKey<FormState> key,
+    BuildContext context,
+    String nome,
+    String? telefone,
+    String email,
+    String cpf,
+    String? rg,
+    String senha,
+  ) {
+    final user = User(nome, telefone, email, cpf, rg, senha);
+
+    if (datePickerLabel == "Data de nascimento") {
+      return true;
     } else {
-      debugPrint("não válido");
+      if (key.currentState!.validate()) {
+        Navigate.to(context, AddressScreen(user: user));
+      }
     }
+
+    return false;
   }
 }

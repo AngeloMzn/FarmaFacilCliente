@@ -95,14 +95,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                           placeholder: "Senha",
                           hideText: loginController.hidePassword,
-                          icon: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                loginController.togglePasswordVisibility();
-                              });
-                            },
-                            icon: Icon(loginController.passwordIcon),
-                          ),
+                          icon: loginController.passwordIcon,
+                          onIconTap: () {
+                            setState(() {
+                              loginController.togglePasswordVisibility();
+                            });
+                          },
                         ),
                       ),
                       Padding(

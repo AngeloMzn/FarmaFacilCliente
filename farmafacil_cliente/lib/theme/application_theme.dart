@@ -3,7 +3,7 @@ import 'application_colors.dart';
 
 class ApplicationThemes {
   static final defaultTheme = ThemeData(
-    useMaterial3: false,
+    useMaterial3: true,
     colorScheme: const ColorScheme(
       brightness: Brightness.light,
       primary: ApplicationColors.primary,

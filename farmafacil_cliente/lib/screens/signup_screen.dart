@@ -1,10 +1,13 @@
 import 'package:easy_mask/easy_mask.dart';
 import 'package:farmafacil_cliente/components/button.dart';
+import 'package:farmafacil_cliente/components/error_text.dart';
+import 'package:farmafacil_cliente/components/fancy_button.dart';
 import 'package:farmafacil_cliente/components/input.dart';
 import 'package:farmafacil_cliente/controllers/signup_controller.dart';
 import 'package:farmafacil_cliente/theme/application_colors.dart';
 import 'package:farmafacil_cliente/utils/navigate.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -29,6 +32,7 @@ class _SignupScreenState extends State<SignupScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: const Text("Dados básicos"),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -84,6 +88,23 @@ class _SignupScreenState extends State<SignupScreen> {
                           keyboardType: TextInputType.name,
                         ),
                       ),
+                      FancyButton(
+                        labelText: signupControllerUm.datePickerLabel,
+                        onTap: () {
+                          signupControllerUm.pickDate(context).then((date) {
+                            setState(() {
+                              signupControllerUm.datePickerLabel = date;
+                            });
+                          });
+                        },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: ErrorText(
+                          showError: signupControllerUm.showError,
+                          message: "Selecione uma data de nascimento.",
+                        ),
+                      ),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8.0),
                         child: Input(
@@ -116,20 +137,6 @@ class _SignupScreenState extends State<SignupScreen> {
                           keyboardType: TextInputType.emailAddress,
                         ),
                       ),
-                      // Padding(
-                      //   padding: const EdgeInsets.only(bottom: 8.0),
-                      //   child: Input(
-                      //     placeholder: "Endereço",
-                      //     keyboardType: TextInputType.streetAddress,
-                      //     icon: IconButton(
-                      //       onPressed: () {},
-                      //       icon: const Icon(
-                      //         Icons.add_home,
-                      //       ),
-                      //       color: ApplicationColors.primary,
-                      //     ),
-                      //   ),
-                      // ),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8.0),
                         child: Input(
@@ -154,6 +161,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           controller: rgController,
                           placeholder: "RG",
                           keyboardType: TextInputType.number,
+                          masks: [FilteringTextInputFormatter.digitsOnly],
                         ),
                       ),
                       Padding(
@@ -162,16 +170,12 @@ class _SignupScreenState extends State<SignupScreen> {
                           controller: senhaController,
                           placeholder: "Senha",
                           hideText: signupControllerUm.hidePassword,
-                          icon: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                signupControllerUm.togglePasswordVisibility();
-                              });
-                            },
-                            icon: Icon(
-                              signupControllerUm.passwordIcon,
-                            ),
-                          ),
+                          icon: signupControllerUm.passwordIcon,
+                          onIconTap: () {
+                            setState(() {
+                              signupControllerUm.togglePasswordVisibility();
+                            });
+                          },
                           iconColor: ApplicationColors.primary,
                           validator: (senha) {
                             return signupControllerUm.validatePassword(senha);
@@ -194,16 +198,12 @@ class _SignupScreenState extends State<SignupScreen> {
                           controller: senhaRepetidaController,
                           placeholder: "Confirme a senha",
                           hideText: signupControllerDois.hidePassword,
-                          icon: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                signupControllerDois.togglePasswordVisibility();
-                              });
-                            },
-                            icon: Icon(
-                              signupControllerDois.passwordIcon,
-                            ),
-                          ),
+                          icon: signupControllerDois.passwordIcon,
+                          onIconTap: () {
+                            setState(() {
+                              signupControllerDois.togglePasswordVisibility();
+                            });
+                          },
                           iconColor: ApplicationColors.primary,
                           validator: (senhaRepetida) {
                             return signupControllerUm.validateEqualPassword(
@@ -221,9 +221,21 @@ class _SignupScreenState extends State<SignupScreen> {
                         child: Button(
                           height: 60,
                           onPress: () {
-                            signupControllerUm.submitForm(_formKey);
+                            setState(() {
+                              signupControllerUm.showError =
+                                  signupControllerUm.submitForm(
+                                _formKey,
+                                context,
+                                nomeController.text,
+                                telefoneController.text,
+                                emailController.text,
+                                cpfController.text,
+                                rgController.text,
+                                senhaController.text,
+                              );
+                            });
                           },
-                          text: "Criar conta",
+                          text: "Continue",
                           textSize: 18,
                         ),
                       ),
