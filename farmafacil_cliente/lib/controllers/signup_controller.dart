@@ -6,8 +6,9 @@ import 'package:flutter/material.dart';
 class SignupController {
   bool hidePassword = true;
   IconData passwordIcon = Icons.visibility_off;
-  String datePickerLabel = "Data de nascimento";
   bool showError = false;
+  DateTime? chosenDate;
+  String datePickerLabel = "Data de nascimento";
 
   void togglePasswordVisibility() {
     hidePassword = !hidePassword;
@@ -94,9 +95,14 @@ class SignupController {
       lastDate: DateTime(2024, 12, 31),
     );
 
-    return date == null
-        ? "Data de nascimento"
-        : "${date.day}/${date.month}/${date.year}";
+    if (chosenDate != null && date == null) {
+      return "${chosenDate!.day}/${chosenDate!.month}/${chosenDate!.year}";
+    } else if (date != null) {
+      chosenDate = date;
+      return "${date.day}/${date.month}/${date.year}";
+    }
+
+    return "Data de nascimento";
   }
 
   bool submitForm(
@@ -111,7 +117,7 @@ class SignupController {
   ) {
     final user = User(nome, telefone, email, cpf, rg, senha);
 
-    if (datePickerLabel == "Data de nascimento") {
+    if (chosenDate == null) {
       return true;
     } else {
       if (key.currentState!.validate()) {

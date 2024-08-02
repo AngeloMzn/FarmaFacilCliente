@@ -16,6 +16,7 @@ class FarmaFacilCliente extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'FarmaFacil',
+      themeMode: ThemeMode.light,
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate
       ],

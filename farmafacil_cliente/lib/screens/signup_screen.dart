@@ -91,9 +91,9 @@ class _SignupScreenState extends State<SignupScreen> {
                       FancyButton(
                         labelText: signupControllerUm.datePickerLabel,
                         onTap: () {
-                          signupControllerUm.pickDate(context).then((date) {
+                          signupControllerUm.pickDate(context).then((dateResult) {
                             setState(() {
-                              signupControllerUm.datePickerLabel = date;
+                              signupControllerUm.datePickerLabel = dateResult;
                             });
                           });
                         },
