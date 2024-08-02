@@ -238,12 +238,24 @@ class _AddressScreenState extends State<AddressScreen> {
                       child: Button(
                         height: 60,
                         onPress: () {
-                          setState(() {
-                            addressController.showError =
-                                addressController.submitForm(
-                              _formKey,
-                            );
-                          });
+                          setState(
+                            () {
+                              addressController.showError =
+                                  addressController.submitForm(
+                                context,
+                                _formKey,
+                                ufController.text,
+                                cepController.text,
+                                cidadeController.text,
+                                bairroController.text,
+                                ruaController.text,
+                                numeroController.text,
+                                addressController.selecionado,
+                                complementoController.text,
+                                widget.user,
+                              );
+                            },
+                          );
                         },
                         text: "Criar conta",
                         textSize: 18,

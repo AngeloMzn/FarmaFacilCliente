@@ -18,7 +18,9 @@ class FarmaFacilCliente extends StatelessWidget {
       title: 'FarmaFacil',
       themeMode: ThemeMode.light,
       localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [
         Locale("pt"),

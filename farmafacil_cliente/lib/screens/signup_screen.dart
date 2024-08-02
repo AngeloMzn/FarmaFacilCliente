@@ -91,7 +91,9 @@ class _SignupScreenState extends State<SignupScreen> {
                       FancyButton(
                         labelText: signupControllerUm.datePickerLabel,
                         onTap: () {
-                          signupControllerUm.pickDate(context).then((dateResult) {
+                          signupControllerUm
+                              .pickDate(context)
+                              .then((dateResult) {
                             setState(() {
                               signupControllerUm.datePickerLabel = dateResult;
                             });
@@ -221,19 +223,21 @@ class _SignupScreenState extends State<SignupScreen> {
                         child: Button(
                           height: 60,
                           onPress: () {
-                            setState(() {
-                              signupControllerUm.showError =
-                                  signupControllerUm.submitForm(
-                                _formKey,
-                                context,
-                                nomeController.text,
-                                telefoneController.text,
-                                emailController.text,
-                                cpfController.text,
-                                rgController.text,
-                                senhaController.text,
-                              );
-                            });
+                            setState(
+                              () {
+                                signupControllerUm.showError =
+                                    signupControllerUm.submitForm(
+                                  _formKey,
+                                  context,
+                                  nomeController.text,
+                                  telefoneController.text,
+                                  emailController.text,
+                                  cpfController.text,
+                                  rgController.text,
+                                  senhaController.text,
+                                );
+                              },
+                            );
                           },
                           text: "Continue",
                           textSize: 18,

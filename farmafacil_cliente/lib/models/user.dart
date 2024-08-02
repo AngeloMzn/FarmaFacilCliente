@@ -1,6 +1,7 @@
 class User {
-  final String nome, email, cpf, senha;
+  final String nome, email, cpf, senha, role;
   final String? telefone, rg;
+  final DateTime dataNascimento;
 
   const User(
     this.nome,
@@ -9,5 +10,7 @@ class User {
     this.cpf,
     this.rg,
     this.senha,
+    this.dataNascimento,
+    this.role,
   );
 }

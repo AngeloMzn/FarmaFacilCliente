@@ -115,14 +115,23 @@ class SignupController {
     String? rg,
     String senha,
   ) {
-    final user = User(nome, telefone, email, cpf, rg, senha);
-
     if (chosenDate == null) {
       return true;
-    } else {
-      if (key.currentState!.validate()) {
-        Navigate.to(context, AddressScreen(user: user));
-      }
+    }
+  
+    final user = User(
+      nome,
+      telefone,
+      email,
+      cpf,
+      rg,
+      senha,
+      chosenDate ?? DateTime(2000),
+      "cliente",
+    );
+
+    if (key.currentState!.validate()) {
+      Navigate.to(context, AddressScreen(user: user));
     }
 
     return false;
