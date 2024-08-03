@@ -1,3 +1,4 @@
+import 'package:farmafacil_cliente/database/authentication.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -10,7 +11,7 @@ class HomeScreen extends StatelessWidget {
         child: TextButton(
           child: const Text("sair"),
           onPressed: () {
-            debugPrint("sair");
+            Authentication.logout(context);
           },
         ),
       ),

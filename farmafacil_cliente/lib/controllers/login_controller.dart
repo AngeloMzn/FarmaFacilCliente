@@ -1,4 +1,9 @@
+import 'package:farmafacil_cliente/database/authentication.dart';
+import 'package:farmafacil_cliente/screens/home_screen.dart';
+import 'package:farmafacil_cliente/utils/login_cookie.dart';
+import 'package:farmafacil_cliente/utils/navigate.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_progress_hud/flutter_progress_hud.dart';
 
 class LoginController {
   bool hidePassword = true;
@@ -37,11 +42,34 @@ class LoginController {
     return null;
   }
 
-  void submitForm(GlobalKey<FormState> key) {
+  void login(
+    GlobalKey<FormState> key,
+    BuildContext context,
+    String email,
+    String password,
+  ) {
     if (key.currentState!.validate()) {
-      debugPrint("válido");
-    } else {
-      debugPrint("não válido");
+      final progress = ProgressHUD.of(context);
+      progress?.showWithText('Verificando...');
+
+      FocusManager.instance.primaryFocus?.unfocus();
+      Authentication.login(email, password).then((requestResponse) {
+        progress?.dismiss();
+
+        if (requestResponse.statusCode == 200) {
+          LoginCookie.save();
+          progress?.dismiss();
+          Navigate.navigateAndRemoveAllRoutes(context, const HomeScreen());
+        } else {
+          const snackBar = SnackBar(
+            content: Text(
+              "Credenciais inválidas, email e/ou senha incorretos!",
+            ),
+          );
+
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+      });
     }
   }
 }

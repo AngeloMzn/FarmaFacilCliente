@@ -10,4 +10,12 @@ class Navigate {
   static void goBack(BuildContext context) {
     Navigator.pop(context);
   }
+
+  static void navigateAndRemoveAllRoutes(BuildContext context, Widget widget) {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => widget,
+      ),
+    );
+  }
 }
