@@ -1,12 +1,15 @@
+import 'package:farmafacil_cliente/database/signup.dart';
 import 'package:farmafacil_cliente/models/address.dart';
 import 'package:farmafacil_cliente/models/user.dart';
 import 'package:farmafacil_cliente/screens/home_screen.dart';
+import 'package:farmafacil_cliente/utils/login_cookie.dart';
 import 'package:farmafacil_cliente/utils/navigate.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_progress_hud/flutter_progress_hud.dart';
 
 class AddressController {
-  final tipos = ["Residencial", "Trabalho", "Outro"];
-  int? selecionado = 0;
+  final types = ["Residencial", "Trabalho", "Outro"];
+  int? selected = 0;
   bool showError = false;
 
   String? defaultValidator(String? value, String errorText) {
@@ -17,39 +20,71 @@ class AddressController {
     return null;
   }
 
+  String? validateCep(String? cep) {
+    String pattern = r"^\d{5}-\d{3}$";
+    RegExp regExp = RegExp(pattern);
+
+    if (cep == null || cep.isEmpty) {
+      return "Insira o CEP.";
+    } else if (!regExp.hasMatch(cep)) {
+      return "Insira um CEP válido.";
+    }
+
+    return null;
+  }
+
   bool submitForm(
     BuildContext context,
     GlobalKey<FormState> key,
     String uf,
     String cep,
-    String cidade,
+    String city,
     String bairro,
-    String rua,
-    String numero,
-    int? tipoEscolhido,
-    String complemento,
+    String street,
+    String number,
+    int? chosenType,
+    String complement,
     User user,
   ) {
-    if (selecionado == null) {
+    if (selected == null) {
       return true;
     }
 
     final address = Address(
       uf: uf,
       cep: cep,
-      cidade: cidade,
+      city: city,
       bairro: bairro,
-      rua: rua,
-      numero: numero,
-      tipo: tipos[tipoEscolhido ?? 0],
-      complemento: complemento,
+      street: street,
+      number: number,
+      type: types[chosenType ?? 0],
+      complement: complement,
     );
 
     if (key.currentState!.validate()) {
-      // TO-DO: chamar authenticate
-      Navigate.to(context, const HomeScreen());
-    }
+      final progress = ProgressHUD.of(context);
+      progress?.showWithText('Verificando...');
 
+      FocusManager.instance.primaryFocus?.unfocus();
+      Signup.createUser(user, address).then((requestResponse) {
+        progress?.dismiss();
+
+        debugPrint(requestResponse.body);
+        debugPrint(address.toString());
+        if (requestResponse.statusCode == 200) {
+          LoginCookie.save();
+          Navigate.navigateAndRemoveAllRoutes(context, const HomeScreen());
+        } else {
+          const snackBar = SnackBar(
+            content: Text(
+              "Erro no cadastro!",
+            ),
+          );
+
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+      });
+    }
     return false;
   }
 }

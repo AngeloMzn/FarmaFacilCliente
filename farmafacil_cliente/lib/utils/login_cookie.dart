@@ -8,6 +8,13 @@ class LoginCookie {
     await prefs.setBool('logged-in', true);
   }
 
+  static Future<bool?> getLoginState() async {
+    final prefs = await SharedPreferences.getInstance();
+    bool? result = prefs.getBool('logged-in');
+
+    return result;
+  }
+
   static void remove() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('logged-in');

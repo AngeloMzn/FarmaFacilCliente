@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:farmafacil_cliente/database/database_config.dart';
 import 'package:farmafacil_cliente/screens/login_screen.dart';
 import 'package:farmafacil_cliente/utils/login_cookie.dart';
 import 'package:farmafacil_cliente/utils/navigate.dart';
@@ -10,7 +11,7 @@ class Authentication {
 
   static Future<http.Response> login(String email, String password) {
     final response = http.post(
-      Uri.parse('http://localhost:3000/login'),
+      Uri.parse('${DatabaseConfig.baseUrl}/login'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -25,9 +26,5 @@ class Authentication {
   static void logout(BuildContext context) {
     LoginCookie.remove();
     Navigate.navigateAndRemoveAllRoutes(context, const LoginScreen());
-  }
-
-  static Future<bool> isLoggedIn() {
-    return Future.value(true);
   }
 }

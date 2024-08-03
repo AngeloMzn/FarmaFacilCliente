@@ -19,14 +19,14 @@ class SignupScreen extends StatefulWidget {
 class _SignupScreenState extends State<SignupScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController nomeController = TextEditingController(),
-      telefoneController = TextEditingController(),
+      phoneNumberController = TextEditingController(),
       emailController = TextEditingController(),
       cpfController = TextEditingController(),
       rgController = TextEditingController(),
-      senhaController = TextEditingController(),
-      senhaRepetidaController = TextEditingController();
-  final signupControllerUm = SignupController(),
-      signupControllerDois = SignupController();
+      passwordController = TextEditingController(),
+      repeatPasswordController = TextEditingController();
+  final signupControllerOne = SignupController(),
+      signupControllerTwo = SignupController();
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +79,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         child: Input(
                           controller: nomeController,
                           validator: (nome) {
-                            return signupControllerUm.defaultValidator(
+                            return signupControllerOne.defaultValidator(
                               nome,
                               "Insira seu nome.",
                             );
@@ -89,13 +89,13 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                       ),
                       FancyButton(
-                        labelText: signupControllerUm.datePickerLabel,
+                        labelText: signupControllerOne.datePickerLabel,
                         onTap: () {
-                          signupControllerUm
+                          signupControllerOne
                               .pickDate(context)
                               .then((dateResult) {
                             setState(() {
-                              signupControllerUm.datePickerLabel = dateResult;
+                              signupControllerOne.datePickerLabel = dateResult;
                             });
                           });
                         },
@@ -103,14 +103,14 @@ class _SignupScreenState extends State<SignupScreen> {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8.0),
                         child: ErrorText(
-                          showError: signupControllerUm.showError,
+                          showError: signupControllerOne.showError,
                           message: "Selecione uma data de nascimento.",
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8.0),
                         child: Input(
-                          controller: telefoneController,
+                          controller: phoneNumberController,
                           placeholder: "Telefone",
                           keyboardType: TextInputType.number,
                           masks: [
@@ -122,7 +122,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             ),
                           ],
                           validator: (phoneNumber) {
-                            return signupControllerUm.validatePhoneNumber(
+                            return signupControllerOne.validatePhoneNumber(
                               phoneNumber,
                             );
                           },
@@ -133,7 +133,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         child: Input(
                           controller: emailController,
                           validator: (email) {
-                            return signupControllerUm.validateEmail(email);
+                            return signupControllerOne.validateEmail(email);
                           },
                           placeholder: "E-mail",
                           keyboardType: TextInputType.emailAddress,
@@ -145,7 +145,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           controller: cpfController,
                           placeholder: "CPF",
                           validator: (cpf) {
-                            return signupControllerUm.validateCpf(
+                            return signupControllerOne.validateCpf(
                               cpf,
                             );
                           },
@@ -164,23 +164,29 @@ class _SignupScreenState extends State<SignupScreen> {
                           placeholder: "RG",
                           keyboardType: TextInputType.number,
                           masks: [FilteringTextInputFormatter.digitsOnly],
+                          validator: (rg) {
+                            return signupControllerOne.defaultValidator(
+                              rg,
+                              "Insira o seu RG.",
+                            );
+                          },
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8.0),
                         child: Input(
-                          controller: senhaController,
+                          controller: passwordController,
                           placeholder: "Senha",
-                          hideText: signupControllerUm.hidePassword,
-                          icon: signupControllerUm.passwordIcon,
+                          hideText: signupControllerOne.hidePassword,
+                          icon: signupControllerOne.passwordIcon,
                           onIconTap: () {
                             setState(() {
-                              signupControllerUm.togglePasswordVisibility();
+                              signupControllerOne.togglePasswordVisibility();
                             });
                           },
                           iconColor: ApplicationColors.primary,
                           validator: (senha) {
-                            return signupControllerUm.validatePassword(senha);
+                            return signupControllerOne.validatePassword(senha);
                           },
                         ),
                       ),
@@ -197,20 +203,20 @@ class _SignupScreenState extends State<SignupScreen> {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8.0),
                         child: Input(
-                          controller: senhaRepetidaController,
+                          controller: repeatPasswordController,
                           placeholder: "Confirme a senha",
-                          hideText: signupControllerDois.hidePassword,
-                          icon: signupControllerDois.passwordIcon,
+                          hideText: signupControllerTwo.hidePassword,
+                          icon: signupControllerTwo.passwordIcon,
                           onIconTap: () {
                             setState(() {
-                              signupControllerDois.togglePasswordVisibility();
+                              signupControllerTwo.togglePasswordVisibility();
                             });
                           },
                           iconColor: ApplicationColors.primary,
                           validator: (senhaRepetida) {
-                            return signupControllerUm.validateEqualPassword(
+                            return signupControllerOne.validateEqualPassword(
                               senhaRepetida,
-                              senhaController.text,
+                              passwordController.text,
                             );
                           },
                         ),
@@ -225,16 +231,16 @@ class _SignupScreenState extends State<SignupScreen> {
                           onPress: () {
                             setState(
                               () {
-                                signupControllerUm.showError =
-                                    signupControllerUm.submitForm(
+                                signupControllerOne.showError =
+                                    signupControllerOne.submitForm(
                                   _formKey,
                                   context,
                                   nomeController.text,
-                                  telefoneController.text,
+                                  phoneNumberController.text,
                                   emailController.text,
                                   cpfController.text,
                                   rgController.text,
-                                  senhaController.text,
+                                  passwordController.text,
                                 );
                               },
                             );

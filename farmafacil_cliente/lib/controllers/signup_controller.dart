@@ -108,28 +108,28 @@ class SignupController {
   bool submitForm(
     GlobalKey<FormState> key,
     BuildContext context,
-    String nome,
-    String? telefone,
+    String name,
+    String? phoneNumber,
     String email,
     String cpf,
     String? rg,
-    String senha,
+    String password,
   ) {
     if (chosenDate == null) {
       return true;
     }
   
     final user = User(
-      nome,
-      telefone,
-      email,
-      cpf,
-      rg,
-      senha,
-      chosenDate ?? DateTime(2000),
-      "cliente",
+      name: name,
+      phoneNumber: phoneNumber,
+      email: email,
+      cpf: cpf,
+      rg: rg,
+      password: password,
+      birthdate: chosenDate?.toIso8601String() ?? DateTime(2000).toIso8601String(),
+      role: "cliente",
     );
-
+  
     if (key.currentState!.validate()) {
       Navigate.to(context, AddressScreen(user: user));
     }

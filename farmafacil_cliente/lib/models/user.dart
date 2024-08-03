@@ -1,16 +1,15 @@
 class User {
-  final String nome, email, cpf, senha, role;
-  final String? telefone, rg;
-  final DateTime dataNascimento;
+  final String name, email, cpf, password, role, birthdate;
+  final String? phoneNumber, rg;
 
-  const User(
-    this.nome,
-    this.telefone,
-    this.email,
-    this.cpf,
-    this.rg,
-    this.senha,
-    this.dataNascimento,
-    this.role,
-  );
+  User({
+    required this.name,
+    required this.email,
+    required this.cpf,
+    required this.password,
+    required this.role,
+    required this.birthdate,
+    required this.phoneNumber,
+    required this.rg,
+  });
 }

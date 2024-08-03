@@ -58,7 +58,6 @@ class LoginController {
 
         if (requestResponse.statusCode == 200) {
           LoginCookie.save();
-          progress?.dismiss();
           Navigate.navigateAndRemoveAllRoutes(context, const HomeScreen());
         } else {
           const snackBar = SnackBar(
