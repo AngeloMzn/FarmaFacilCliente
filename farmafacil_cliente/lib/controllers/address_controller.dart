@@ -63,7 +63,7 @@ class AddressController {
 
     if (key.currentState!.validate()) {
       final progress = ProgressHUD.of(context);
-      progress?.showWithText('Verificando...');
+      progress?.showWithText('Criando...');
 
       FocusManager.instance.primaryFocus?.unfocus();
       Signup.createUser(user, address).then((requestResponse) {

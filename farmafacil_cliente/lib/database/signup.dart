@@ -15,7 +15,7 @@ class Signup {
       'role': user.role,
       'phone': user.phoneNumber,
       'birthdate': "${user.birthdate}Z",
-      'password': user.birthdate,
+      'password': user.password,
       'address': {
         'uf': address.uf,
         'cep': address.cep,
