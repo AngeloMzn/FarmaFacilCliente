@@ -21,6 +21,7 @@ class Signup {
         'cep': address.cep,
         'city': address.city,
         'street': address.street,
+        'bairro': address.bairro,
         'number': address.number,
         'type': address.type,
         'complement': address.complement,
