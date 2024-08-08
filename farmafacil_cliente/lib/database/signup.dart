@@ -8,14 +8,14 @@ import 'package:http/http.dart' as http;
 class Signup {
   static Future<http.Response> createUser(User user, Address address) {
     var data = {
-      'email': user.email,
+      'email': user.email.trim(),
       'name': user.name,
       'cpf': user.cpf,
       'rg': user.rg,
       'role': user.role,
       'phone': user.phoneNumber,
       'birthdate': "${user.birthdate}Z",
-      'password': user.password,
+      'password': user.password.trim(),
       'address': {
         'uf': address.uf,
         'cep': address.cep,
@@ -27,6 +27,7 @@ class Signup {
       }
     };
 
+    // TODO: dá pra criar uma classe Requests e nela ter send e receive
     final response = http.post(
       Uri.parse('${DatabaseConfig.baseUrl}/signup'),
       headers: <String, String>{
