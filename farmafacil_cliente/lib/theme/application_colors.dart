@@ -17,5 +17,7 @@ class ApplicationColors {
   warning = Color(0xfff9cf58),
   error = Color(0xffff5963),
   info = Color(0xffffffff), 
-  icon2 = Color(0xa357636c);
+  icon2 = Color(0xa357636c),
+  primaryLight = Color(0x598F00FF),
+  primaryDark = Color(0xBE305890);
 }
