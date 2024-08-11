@@ -1,5 +1,6 @@
 import 'package:farmafacil_cliente/screens/home_screen.dart';
 import 'package:farmafacil_cliente/screens/profile_screen.dart';
+import 'package:farmafacil_cliente/screens/search_screen.dart';
 import 'package:farmafacil_cliente/theme/application_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -26,6 +27,10 @@ class _HomeScreenState extends State<MainScreen> {
               label: "Início",
             ),
             NavigationDestination(
+              icon: Icon(Icons.search),
+              label: "Pesquisa",
+            ),
+            NavigationDestination(
               icon: Icon(Icons.account_circle_outlined),
               label: "Perfil",
             ),
@@ -36,6 +41,6 @@ class _HomeScreenState extends State<MainScreen> {
             });
           },
         ),
-        body: [const HomeScreen(), const ProfileScreen()][currentPageIndex]);
+        body: [const HomeScreen(), const SearchScreen(), const ProfileScreen()][currentPageIndex]);
   }
 }
