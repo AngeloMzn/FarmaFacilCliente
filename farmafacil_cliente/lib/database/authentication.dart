@@ -18,6 +18,7 @@ class Authentication {
       body: jsonEncode(<String, String>{
         'email': email,
         'password': password,
+        'role': 'cliente'
       }),
     );
     return response;

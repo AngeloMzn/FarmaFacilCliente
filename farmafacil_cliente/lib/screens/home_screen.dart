@@ -1,8 +1,11 @@
+import 'package:farmafacil_cliente/components/carousel.dart';
 import 'package:farmafacil_cliente/components/category_button.dart';
+import 'package:farmafacil_cliente/components/product_list_item.dart';
 import 'package:farmafacil_cliente/database/product_operations.dart';
 import 'package:farmafacil_cliente/models/product.dart';
 import 'package:farmafacil_cliente/theme/application_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -28,26 +31,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            Container(
-              height: 200,
-              child: CarouselView(
-                padding: EdgeInsets.all(8),
-                itemExtent: 200,
-                children: [
-                  Image.network(
-                    "https://www.designi.com.br/images/preview/12709839.jpg",
-                    fit: BoxFit.cover,
-                  ),
-                  Image.network(
-                    "https://www.designi.com.br/images/preview/10279963.jpg",
-                    fit: BoxFit.cover,
-                  ),
-                  Image.network(
-                    "https://www.designi.com.br/images/preview/10612630.jpg",
-                    fit: BoxFit.cover,
-                  ),
-                ],
-              ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0, bottom: 8),
+              child: Carousel(),
             ),
             Text(
               "Categorias",
@@ -69,6 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Padding(
                       padding: EdgeInsets.only(left: 4.0, right: 4.0),
                       child: CategoryButton(
+                        hint: "Ordem alfabética",
                         icon: Icon(
                           Icons.abc,
                           color: Colors.white,
@@ -78,6 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Padding(
                       padding: EdgeInsets.only(left: 4.0, right: 4.0),
                       child: CategoryButton(
+                        hint: "Saúde feminina",
                         icon: Icon(
                           Icons.female_rounded,
                           color: ApplicationColors.primaryDark,
@@ -87,6 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Padding(
                       padding: EdgeInsets.only(left: 4.0, right: 4.0),
                       child: CategoryButton(
+                        hint: "naosei",
                         icon: Icon(
                           Icons.monitor_heart,
                           color: ApplicationColors.primaryDark,
@@ -96,6 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Padding(
                       padding: EdgeInsets.only(left: 4.0, right: 4.0),
                       child: CategoryButton(
+                        hint: "naosei",
                         icon: Icon(
                           Icons.medication_liquid_rounded,
                           color: ApplicationColors.primaryDark,
@@ -105,6 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Padding(
                       padding: EdgeInsets.only(left: 4.0, right: 4.0),
                       child: CategoryButton(
+                        hint: "naosei",
                         icon: Icon(
                           Icons.health_and_safety_outlined,
                           color: ApplicationColors.primaryDark,
@@ -128,9 +119,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (snapshot.hasData) {
                   debugPrint("Resultado: ${snapshot.data.toString()}");
                   List<Product>? produtos = snapshot.data;
-        
+
                   if (produtos == null || produtos.length == 0) {
-                    return Text("não tem produtos :(");
+                    return Column(
+                      children: [
+                        Icon(
+                          Icons.sentiment_dissatisfied,
+                          color: ApplicationColors.primary,
+                        ),
+                        Text("Não há produtos."),
+                      ],
+                    );
                   } else {
                     return Padding(
                       padding: const EdgeInsets.only(left: 16.0, right: 16),
@@ -138,22 +137,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         itemCount: produtos.length,
                         shrinkWrap: true,
                         itemBuilder: (BuildContext context, int index) {
-                          return SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: Text(
-                              "${produtos[index].code}",
-                              style: TextStyle(
-                                color: Colors.black,
-                              ),
-                            ),
-                          );
+                          return ProductListItem(product: produtos[index]);
                         },
                       ),
                     );
                   }
                 }
-        
                 return CircularProgressIndicator();
               },
             ),

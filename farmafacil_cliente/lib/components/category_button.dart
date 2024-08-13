@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 
 class CategoryButton extends StatelessWidget {
   final Icon icon;
-  const CategoryButton({super.key, required this.icon});
+  final String hint;
+  const CategoryButton({super.key, required this.icon, required this.hint});
 
   @override
   Widget build(BuildContext context) {
     return IconButton.filled(
+      tooltip: hint,
       iconSize: 50,
       icon: icon,
       style: IconButton.styleFrom(
