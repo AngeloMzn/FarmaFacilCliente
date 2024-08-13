@@ -92,7 +92,7 @@ class SignupController {
     DateTime? date = await showDatePicker(
       context: context,
       firstDate: DateTime(1900),
-      lastDate: DateTime(2024, 12, 31),
+      lastDate: DateTime.now().subtract(Duration(days: 1)),
     );
 
     if (chosenDate != null && date == null) {
@@ -128,6 +128,7 @@ class SignupController {
       password: password,
       birthdate: chosenDate?.toIso8601String() ?? DateTime(2000).toIso8601String(),
       role: "cliente",
+      image: "",
     );
   
     if (key.currentState!.validate()) {

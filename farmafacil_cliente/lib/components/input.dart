@@ -44,6 +44,11 @@ class Input extends StatelessWidget {
       decoration: InputDecoration(
         hintText: placeholder,
         filled: true,
+        hintStyle: const TextStyle(
+          fontSize: 16,
+          color: ApplicationColors.secondaryText,
+          fontWeight: FontWeight.w500,
+        ),
         fillColor: ApplicationColors.primaryBackground,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),

@@ -1,5 +1,5 @@
 class User {
-  final String name, email, cpf, password, role, birthdate;
+  final String name, email, cpf, password, role, birthdate, image;
   final String? phoneNumber, rg;
 
   User({
@@ -11,5 +11,6 @@ class User {
     required this.birthdate,
     required this.phoneNumber,
     required this.rg,
+    required this.image,
   });
 }

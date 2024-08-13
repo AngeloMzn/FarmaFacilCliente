@@ -1,5 +1,5 @@
 class Product {
-  final String code, description, category, image;
+  final String code, description, category, image, name;
   final int quantity, id;
   final double initialPrice, promotionalPrice;
   final bool needsPrescription;
@@ -7,6 +7,7 @@ class Product {
   Product({
     required this.id,
     required this.code,
+    required this.name,
     required this.description,
     required this.category,
     required this.image,
@@ -18,13 +19,14 @@ class Product {
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
+      name: json['name'],
       id: json['id'] as int,
       code: json['code'],
       quantity: json['quantity'] as int,
       description: json['description'],
       category: json['category'],
-      initialPrice: json['initial_price'] is double ? json['initial_price'] : double.parse(json['initial_price'].toString()),
-      promotionalPrice: json['promotional_price'] is double ? json['promotional_price'] : double.parse(json['promotional_price'].toString()),
+      initialPrice: json['initial_price'] as double,
+      promotionalPrice: json['promotional_price'] as double,
       needsPrescription: json['needs_prescription'] as bool,
       image: json['image'],
     );
