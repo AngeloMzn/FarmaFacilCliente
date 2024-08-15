@@ -13,6 +13,7 @@ class Input extends StatelessWidget {
   final String? Function(String?)? validator;
   final TextEditingController controller;
   final int lines;
+  final int? charLimit;
 
   const Input({
     super.key,
@@ -26,6 +27,7 @@ class Input extends StatelessWidget {
     required this.controller,
     this.lines = 1,
     this.onIconTap,
+    this.charLimit,
   });
 
   @override
@@ -33,6 +35,7 @@ class Input extends StatelessWidget {
     return TextFormField(
       controller: controller,
       validator: validator,
+      maxLength: charLimit,
       keyboardType: keyboardType,
       cursorColor: ApplicationColors.primaryText,
       obscureText: hideText,

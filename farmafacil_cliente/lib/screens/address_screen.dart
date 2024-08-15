@@ -127,6 +127,7 @@ class _AddressScreenState extends State<AddressScreen> {
                                   "Insira a sua cidade.",
                                 );
                               },
+                              charLimit: 168,
                             ),
                           ),
                           Padding(
@@ -141,6 +142,7 @@ class _AddressScreenState extends State<AddressScreen> {
                               },
                               placeholder: "Bairro",
                               keyboardType: TextInputType.text,
+                              charLimit: 100,
                             ),
                           ),
                           Padding(
@@ -155,6 +157,7 @@ class _AddressScreenState extends State<AddressScreen> {
                                 );
                               },
                               keyboardType: TextInputType.text,
+                              charLimit: 200,
                             ),
                           ),
                           Padding(
@@ -170,6 +173,7 @@ class _AddressScreenState extends State<AddressScreen> {
                                   "Insira o número da sua casa.",
                                 );
                               },
+                              charLimit: 7,
                             ),
                           ),
                           const Padding(
@@ -232,6 +236,7 @@ class _AddressScreenState extends State<AddressScreen> {
                             controller: complementController,
                             keyboardType: TextInputType.multiline,
                             lines: 4,
+                            charLimit: 300,
                           ),
                           Padding(
                             padding: const EdgeInsets.only(

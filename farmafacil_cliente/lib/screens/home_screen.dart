@@ -5,7 +5,6 @@ import 'package:farmafacil_cliente/database/product_operations.dart';
 import 'package:farmafacil_cliente/models/product.dart';
 import 'package:farmafacil_cliente/theme/application_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

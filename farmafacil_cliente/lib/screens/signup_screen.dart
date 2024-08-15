@@ -86,6 +86,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           },
                           placeholder: "Nome completo",
                           keyboardType: TextInputType.name,
+                          charLimit: 100,
                         ),
                       ),
                       FancyButton(
@@ -170,6 +171,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               "Insira o seu RG.",
                             );
                           },
+                          charLimit: 30,
                         ),
                       ),
                       Padding(

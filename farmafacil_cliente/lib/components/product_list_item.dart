@@ -48,7 +48,7 @@ class ProductListItem extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(right: 8.0),
                 child: Text(
-                  product.initialPrice.toString(),
+                  "R\$ ${product.initialPrice.toString()}",
                   style: TextStyle(
                     color: ApplicationColors.primary,
                     fontWeight: FontWeight.w300,
