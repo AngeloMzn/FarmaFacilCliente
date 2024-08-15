@@ -21,7 +21,8 @@ class ProductListItem extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                    child: Text("imagem"),
+                    child: Image.network("http://localhost:3000/images/product/${product.image}")
+
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
